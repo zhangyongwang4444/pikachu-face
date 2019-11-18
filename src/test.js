@@ -1,50 +1,70 @@
 import string from './css.js';
 
-let n = 1;
-demo2.innerHTML = string.substr(0, n);
-demo.innerText = string.substr(0, n);
+const player = {
+    timerId: null,
+    time: 100,
+    n: 1,
+    ui: {
+        demo: document.querySelector('#demo'),
+        demo2: document.querySelector('#demo2')
+    },
+    events: {
+        '#btnPause':
+            'pause',
+        '#btnPlay':
+            'play',
+        '#btnSlow':
+            'slow',
+        '#btnNormal':
+            'normal',
+        '#btnFast':
+            'fast'
+    },
 
-let time = 100;
-
-const draw = () => {
-    n += 1;
-    if (n > string.length) {
-        window.clearInterval(timerId);
-        return
+    init: () => {
+        player.ui.demo2.innerHTML = string.substr(0, player.n);
+        player.ui.demo.innerText = string.substr(0, player.n);
+        player.bindEvents();
+        player.play();
+    },
+    bindEvents: () => {
+        for (let key in player.events) if (player.events.hasOwnProperty(key)) {
+            const value = player.events[key];
+            document.querySelector(key).onclick = player[value];
+        }
+    },
+    draw: () => {
+        player.n += 1;
+        if (player.n > string.length) {
+            window.clearInterval(player.timerId);
+            return
+        }
+        console.log(player.n + ':' + string.substr(0, player.n));
+        player.ui.demo.innerText = string.substr(0, player.n);
+        player.ui.demo2.innerHTML = string.substr(0, player.n);
+        player.ui.demo.scrollTop = player.ui.demo.scrollHeight;
+    },
+    play: () => {
+        player.timerId = setInterval(player.draw, player.time)
+    },
+    pause: () => {
+        window.clearInterval(player.timerId)
+    },
+    slow: () => {
+        player.pause();
+        player.time = 300;
+        player.play()
+    },
+    normal: () => {
+        player.pause();
+        player.time = 100;
+        player.play()
+    },
+    fast: () => {
+        player.pause();
+        player.time = 0;
+        player.play()
     }
-    console.log(n + ':' + string.substr(0, n));
-    demo.innerText = string.substr(0, n);
-    demo2.innerHTML = string.substr(0, n);
-    demo.scrollTop = demo.scrollHeight;
 };
-const play = () => {
-    return setInterval(draw, time)
-};
-const pause = () => {
-    window.clearInterval(timerId)
-};
-const slow = () => {
-    pause();
-    time = 300;
-    timerId = play()
-};
-const normal = () => {
-    pause();
-    time = 100;
-    timerId = play()
-};
-const fast = () => {
-    pause();
-    time = 0;
-    timerId = play()
-};
+player.init();
 
-let timerId = play();
-
-btnPause.onclick = pause;
-btnPlay.onclick = () => {
-    timerId = play()
-};
-btnSlow.onclick = slow;
-btnNormal.onclick = normal;
-btnFast.onclick = fast;

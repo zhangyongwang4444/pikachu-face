@@ -121,61 +121,71 @@ var _css = _interopRequireDefault(require("./css.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var n = 1;
-demo2.innerHTML = _css.default.substr(0, n);
-demo.innerText = _css.default.substr(0, n);
-var time = 100;
+var player = {
+  timerId: null,
+  time: 100,
+  n: 1,
+  ui: {
+    demo: document.querySelector('#demo'),
+    demo2: document.querySelector('#demo2')
+  },
+  events: {
+    '#btnPause': 'pause',
+    '#btnPlay': 'play',
+    '#btnSlow': 'slow',
+    '#btnNormal': 'normal',
+    '#btnFast': 'fast'
+  },
+  init: function init() {
+    player.ui.demo2.innerHTML = _css.default.substr(0, player.n);
+    player.ui.demo.innerText = _css.default.substr(0, player.n);
+    player.play();
+    player.bindEvents();
+  },
+  bindEvents: function bindEvents() {
+    for (var key in player.events) {
+      if (player.events.hasOwnProperty(key)) {
+        var value = player.events[key];
+        document.querySelector(key).onclick = player[value];
+      }
+    }
+  },
+  draw: function draw() {
+    player.n += 1;
 
-var draw = function draw() {
-  n += 1;
+    if (player.n > _css.default.length) {
+      window.clearInterval(player.timerId);
+      return;
+    }
 
-  if (n > _css.default.length) {
-    window.clearInterval(timerId);
-    return;
+    console.log(player.n + ':' + _css.default.substr(0, player.n));
+    player.ui.demo.innerText = _css.default.substr(0, player.n);
+    player.ui.demo2.innerHTML = _css.default.substr(0, player.n);
+    player.ui.demo.scrollTop = player.ui.demo.scrollHeight;
+  },
+  play: function play() {
+    player.timerId = setInterval(player.draw, player.time);
+  },
+  pause: function pause() {
+    window.clearInterval(player.timerId);
+  },
+  slow: function slow() {
+    player.pause();
+    player.time = 300;
+    player.play();
+  },
+  normal: function normal() {
+    player.pause();
+    player.time = 100;
+    player.play();
+  },
+  fast: function fast() {
+    player.pause();
+    player.time = 0;
+    player.play();
   }
-
-  console.log(n + ':' + _css.default.substr(0, n));
-  demo.innerText = _css.default.substr(0, n);
-  demo2.innerHTML = _css.default.substr(0, n);
-  demo.scrollTop = demo.scrollHeight;
 };
-
-var play = function play() {
-  return setInterval(draw, time);
-};
-
-var pause = function pause() {
-  window.clearInterval(timerId);
-};
-
-var slow = function slow() {
-  pause();
-  time = 300;
-  timerId = play();
-};
-
-var normal = function normal() {
-  pause();
-  time = 100;
-  timerId = play();
-};
-
-var fast = function fast() {
-  pause();
-  time = 0;
-  timerId = play();
-};
-
-var timerId = play();
-btnPause.onclick = pause;
-
-btnPlay.onclick = function () {
-  timerId = play();
-};
-
-btnSlow.onclick = slow;
-btnNormal.onclick = normal;
-btnFast.onclick = fast;
+player.init();
 },{"./css.js":"css.js"}],"C:/Users/34936/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -203,7 +213,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56278" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59344" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
