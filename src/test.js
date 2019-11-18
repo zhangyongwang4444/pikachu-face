@@ -23,31 +23,28 @@ const play = () => {
 const pause = () => {
     window.clearInterval(timerId)
 };
-
-let timerId = play();
-
-btnPause.onclick = () => {
-    pause()
-};
-
-btnPlay.onclick = () => {
-    timerId = play()
-};
-
-btnSlow.onclick = () => {
+const slow = () => {
     pause();
     time = 300;
     timerId = play()
 };
-
-btnNormal.onclick = () => {
+const normal = () => {
     pause();
     time = 100;
     timerId = play()
 };
-
-btnFast.onclick = () => {
+const fast = () => {
     pause();
     time = 0;
     timerId = play()
 };
+
+let timerId = play();
+
+btnPause.onclick = pause;
+btnPlay.onclick = () => {
+    timerId = play()
+};
+btnSlow.onclick = slow;
+btnNormal.onclick = normal;
+btnFast.onclick = fast;

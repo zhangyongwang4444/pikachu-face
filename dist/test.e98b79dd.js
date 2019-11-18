@@ -148,33 +148,34 @@ var pause = function pause() {
   window.clearInterval(timerId);
 };
 
-var timerId = play();
-
-btnPause.onclick = function () {
-  pause();
-};
-
-btnPlay.onclick = function () {
-  timerId = play();
-};
-
-btnSlow.onclick = function () {
+var slow = function slow() {
   pause();
   time = 300;
   timerId = play();
 };
 
-btnNormal.onclick = function () {
+var normal = function normal() {
   pause();
   time = 100;
   timerId = play();
 };
 
-btnFast.onclick = function () {
+var fast = function fast() {
   pause();
   time = 0;
   timerId = play();
 };
+
+var timerId = play();
+btnPause.onclick = pause;
+
+btnPlay.onclick = function () {
+  timerId = play();
+};
+
+btnSlow.onclick = slow;
+btnNormal.onclick = normal;
+btnFast.onclick = fast;
 },{"./css.js":"css.js"}],"C:/Users/34936/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -202,7 +203,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50709" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56278" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
