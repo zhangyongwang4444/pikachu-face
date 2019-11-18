@@ -122,10 +122,11 @@ var _css = _interopRequireDefault(require("./css.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var n = 1;
-demo.innerText = _css.default.substr(0, n);
 demo2.innerHTML = _css.default.substr(0, n);
-console.log(n);
-var timerId = setInterval(function () {
+demo.innerText = _css.default.substr(0, n);
+var time = 100;
+
+var draw = function draw() {
   n += 1;
 
   if (n > _css.default.length) {
@@ -137,7 +138,43 @@ var timerId = setInterval(function () {
   demo.innerText = _css.default.substr(0, n);
   demo2.innerHTML = _css.default.substr(0, n);
   demo.scrollTop = demo.scrollHeight;
-}, 0);
+};
+
+var play = function play() {
+  return setInterval(draw, time);
+};
+
+var pause = function pause() {
+  window.clearInterval(timerId);
+};
+
+var timerId = play();
+
+btnPause.onclick = function () {
+  pause();
+};
+
+btnPlay.onclick = function () {
+  timerId = play();
+};
+
+btnSlow.onclick = function () {
+  pause();
+  time = 300;
+  timerId = play();
+};
+
+btnNormal.onclick = function () {
+  pause();
+  time = 100;
+  timerId = play();
+};
+
+btnFast.onclick = function () {
+  pause();
+  time = 0;
+  timerId = play();
+};
 },{"./css.js":"css.js"}],"C:/Users/34936/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -165,7 +202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64481" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50709" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
